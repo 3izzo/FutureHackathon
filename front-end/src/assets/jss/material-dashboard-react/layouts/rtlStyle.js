@@ -12,9 +12,9 @@ const appStyle = theme => ({
     direction: "rtl"
   },
   mainPanel: {
-    [theme.breakpoints.up("md")]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    },
+    // [theme.breakpoints.up("md")]: {
+    //   width: `calc(100% - ${drawerWidth}px)`
+    // },
     overflow: "auto",
     position: "relative",
     float: "left",
@@ -24,7 +24,13 @@ const appStyle = theme => ({
     overflowScrolling: "touch"
   },
   content: {
-    marginTop: "70px",
+
+    [theme.breakpoints.up("md")]: {
+      width: '970px'
+    },
+    // align
+    marginRight: "calc(50% - 485px)",
+    marginLeft: "calc(50% - 485px)",
     padding: "30px 15px",
     minHeight: "calc(100vh - 123px)"
   },

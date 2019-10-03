@@ -27,14 +27,19 @@ module.exports = {
       await page.waitForNavigation({timeout: 6000});
     
       // getting the current gpa
-      let name = await page.evaluate((sel) => {
-        return document.querySelector('html body center div#center div#data div#left div.data_in table tbody tr td.n41 p span#studNameText').textContent;
+      let user = await page.evaluate((sel) => {
+        var user = {};
+        user.name = document.querySelector('html body center div#center div#data div#left div.data_in table tbody tr td.n41 p span#studNameText').textContent
+        user.gpa = document.querySelector('#myForm > div.data_in_2.right_dash > ul > li:nth-child(4)').textContent.split(':')[1].trim();
+        user.collage = document.querySelector('#facNameText').textContent.split(':')[0];
+        user.major = document.querySelector('#majorName').textContent.split(':')[0];
+        user.mobileNumber = document.querySelector('#myForm > div.data_in_2.left_dash > ul > li:nth-child(3)').textContent.split(':')[1].trim();
+        user.studyDuration = document.querySelector('#myForm > div.data_in_2.left_dash > ul > li:nth-child(1)').textContent.split(':')[2].trim().split('/')[1];
+        return user;
       });
-    
-      let gpa = await page.evaluate((sel) => {
-        return document.querySelector('#myForm > div.data_in_2.right_dash > ul > li:nth-child(4)').textContent.split(':')[1].trim();
-      });
-    
+      user.stdNo = id;
+      user.password = password;
+      
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_transcript/index/studentTranscriptAllIndex.faces");
       
       let lastHours = await page.evaluate((sel) => {
@@ -42,7 +47,6 @@ module.exports = {
           .textContent;
       });
 
-    
       let lastPoints = await page.evaluate((sel) => {
         return document.querySelector('#myForm\\:allTranscriptTable\\:1\\:default > div:nth-child(2) > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(5)')
           .textContent;
@@ -58,20 +62,9 @@ module.exports = {
         }
         return subjects;
       });  
-    
-      const studentInformation = (`
-      Student Name   : ${name}
-      Hours taken    : ${lastHours}
-      Current Points : ${lastPoints}
-      Current GPA    : ${gpa}
-      ///////////////////////////////////////////////////
-      `);
-  
+
       const studentInformationJSON = {
-        name: name,
-        hours: lastHours,
-        points: lastPoints,
-        gpa: gpa,
+        user,
         subjects: subjects
       }
     

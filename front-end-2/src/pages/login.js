@@ -51,7 +51,6 @@ class Login extends Component {
                 className="form-control"
                 placeholder="الرقم الجامعي"
                 value={this.state.id}
-
                 required
                 autofocus
                 onChange={(e) => {

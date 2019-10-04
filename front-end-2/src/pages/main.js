@@ -58,7 +58,8 @@ class Main extends Component {
                     <h4 className="card-title" style={{ marginBottom: '10px' }}>{this.state.name}</h4>
                     <h6 className="card-title">{this.state.collage}</h6>
                     <h6 className="card-title">{this.state.major}</h6>
-                    <div className="container">
+                    <br/>
+                    <div className="container" style={{marginBottom: '-26px'}}>
                       <table className="table" >
                         <tbody>
                           <tr >
@@ -81,48 +82,48 @@ class Main extends Component {
               </div>
               <div className="row">
                 <div className="col-md-4 col-sm-12">
-                  <div className="card" onClick={() => {
-                    this.props.history.push('/subjects');
-                  }}>
-                    <div className="card-header card-header-icon card-header-rose">
-                      <div className="card-icon">
-                        <i className="material-icons">book</i>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <h4 className="card-title"> المواد المسجلة</h4>
-                    </div>
-                  </div>
+                    <button 
+                    style={{width: '100%', height: '161px', fontSize: '21px'}} 
+                    class="btn btn-rose"
+                    onClick={() => {
+                      this.props.history.push('/subjects');
+                    }}
+                    >
+                      <i class="material-icons" style={{fontSize: '53px'}}>book</i>
+                      <br/> 
+                      <br/>
+                      المواد المسجلة
+                    </button>
                 </div>
 
                 <div className="col-md-4 col-sm-12">
-                  <div className="card" onClick={() => {
+                  <button 
+                  style={{width: '100%', height: '161px', fontSize: '21px'}} 
+                  class="btn btn-warning"
+                  onClick={() => {
                     this.props.history.push('/stats');
-                  }}>
-                    <div className="card-header card-header-icon card-header-warning">
-                      <div className="card-icon">
-                        <i className="material-icons">bar_chart</i>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <h4 className="card-title">الاحصائيات</h4>
-                    </div>
-                  </div>
+                  }}
+                  >
+                    <i class="material-icons" style={{fontSize: '53px'}}>favorite</i>
+                    <br/> 
+                    <br/>
+                    الاحصائيات
+                  </button>
                 </div>
 
                 <div className="col-md-4 col-sm-12">
-                  <div className="card" onClick={() => {
-                    this.props.history.push('/registeration');
-                  }}>
-                    <div className="card-header card-header-icon card-header-success">
-                      <div className="card-icon">
-                        <i className="material-icons">add</i>
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <h4 className="card-title"> تسجيل المواد</h4>
-                    </div>
-                  </div>
+                  <button 
+                    style={{width: '100%', height: '161px', fontSize: '21px'}} 
+                    class="btn btn-success"
+                    onClick={() => {
+                      this.props.history.push('/registeration');
+                    }}
+                    >
+                      <i class="material-icons" style={{fontSize: '53px'}}>add</i>
+                      <br/> 
+                      <br/>
+                      تسجيل المواد
+                    </button>
                 </div>
               </div>
             </div>

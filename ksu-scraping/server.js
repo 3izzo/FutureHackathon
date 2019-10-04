@@ -12,7 +12,7 @@ function sleep(ms) {
 }
 
 async function launchBrowser() {
-  browser = await puppeteer.launch({headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+  browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
 }
 launchBrowser();
 

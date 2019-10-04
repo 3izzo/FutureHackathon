@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
+const courses = require('./courses.json');
 
 module.exports = {
   getStudentInformation: async function(id, password, page) {
@@ -52,16 +53,16 @@ module.exports = {
           .textContent;
       });
 
-      let subjects = await page.evaluate((sel) => {
-        var subjectsCount = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children.length;
-        var subjects = [];
-        for(var i = 0; i < subjectsCount; i++) {
-          var name = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children[i].children[1].textContent;
-          var hours = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children[i].children[2].textContent
-          subjects.push({id: i, name: name, hours: hours, checked: true, grade: 'A+',});
-        }
-        return subjects;
-      });  
+      // let subjects = await page.evaluate((sel) => {
+      //   var subjectsCount = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children.length;
+      //   var subjects = [];
+      //   for(var i = 0; i < subjectsCount; i++) {
+      //     var name = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children[i].children[1].textContent;
+      //     var hours = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children[i].children[2].textContent
+      //     subjects.push({id: i, name: name, hours: hours, checked: true, grade: 'A+',});
+      //   }
+      //   return subjects;
+      // });  
 
       
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_plan/index/forwardAllPlanIndex.faces");
@@ -84,15 +85,29 @@ module.exports = {
         return {taken, left}
       });
 
-      console.log(plan);
+      await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_schedule/index/forwardStudentSchedule.faces");
+      await page.waitForNavigation();
+
+      let subjects = await page.evaluate((courses) => {
+        var subjectsCount = document.querySelectorAll('tr.ROW1, tr.ROW2').length - 2;
+        var subjects = [];
+        for(var i = 0; i < subjectsCount; i++) {
+          var subject = {};
+          var sectionID = document.querySelectorAll('tr.ROW1, tr.ROW2')[i].children[4].textContent;
+          for (let j = 0; j < courses.length; j++) {
+            if (sectionID == courses[j].sectionID) {
+              subjects.push(courses[j]);
+            }
+          }
+        }
+        return subjects;
+      }, courses);  
 
       const studentInformationJSON = {
         user,
         subjects: subjects,
         plan
       }
-
-      
 
       await page.close();
       return(studentInformationJSON);

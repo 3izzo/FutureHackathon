@@ -2,33 +2,44 @@ import React, { Component } from 'react'
 import '../Login.css';
 import loading from '../loading.svg'
 import { withRouter } from 'react-router-dom'
+import axios from 'axios';
 
 class Login extends Component {
   state = {
     id: '',
     password: '',
     isLoading: false,
+    isErorr: false,
   }
 
   componentDidUpdate() {
-    // console.log(this.state);
+    console.log(this.state);
   }
 
   handleLogin = () => {
-    this.setState({isLoading: true});
-    setTimeout(() => {
+    this.setState({isLoading: true, isErorr: false});
+    axios.post('http://localhost:5012/getStudentInformation',{id:this.state.id,password:this.state.password}).then(res => {
+      console.log(res.data.user.name)
+      localStorage.setItem('auth', JSON.stringify(res.data));
       this.props.history.push('/');
-    }, 2000)
+    }).catch((error) => {
+      console.log('there is an error');
+      this.setState({isLoading: false,isErorr: true})
+    })
+    
   }
 
   render() {
     return (
       <div>
         <div className="card-container text-center align-center d-flex justify-content-center">
-          <div className="card login-card">
+          <div className="card login-card" style={(this.state.isErorr) ? {maxHeight: '420px'} : {maxHeight: '350px'}}>
             <form className="form-signin" dir="rtl" onSubmit={(e) => {e.preventDefault()}}>
               <img className="logo" src="/images/favicons/ms-icon-150x150.png" alt="" width={72} height={72} />
               <h1 className="login-title h3 mb-3 font-weight-normal force-font">تسجيل الدخول</h1>
+              {(this.state.isErorr) ? <div class="alert alert-warning" role="alert">
+  الرقم الجامعي أو كلمة السر غير صحيحة 
+</div> : <div></div>}
               <label htmlFor="student_id" className="sr-only">الرقم الجامعي</label>
               <input 
                 name="student_id" 
@@ -37,6 +48,7 @@ class Login extends Component {
                 className="form-control" 
                 placeholder="الرقم الجامعي" 
                 value={this.state.id} 
+                
                 required 
                 autofocus 
                 onChange={(e) => {
@@ -57,8 +69,12 @@ class Login extends Component {
                 style={{padding: '10px 0px', minHeight: '61px'}}
                 className="btn login-button btn-lg btn-success btn-block" 
                 type="submit"
-                onClick={this.handleLogin}>
+                onClick={this.handleLogin}
+                disabled={this.state.isLoading}
+                >
+               
                   {(this.state.isLoading) ? <img alt="Loading" height={40} src={loading} /> : 'تسجيل'}
+                  
               </button>
             </form>
           </div>

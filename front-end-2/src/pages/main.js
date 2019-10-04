@@ -3,6 +3,7 @@ import ksuLogo from '../ksu.jpg'
 import { withRouter } from 'react-router-dom'
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
+import sections from '../courses.json'
 
 class Main extends Component {
   state = {
@@ -16,6 +17,7 @@ class Main extends Component {
   }
 
   componentWillMount() {
+    console.log(sections);
     const auth = JSON.parse(localStorage.getItem('auth'));
     console.log(auth);
     if (auth == null) {

@@ -4,7 +4,6 @@ import loading from '../loading.svg'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios';
 import ksuLogo from '../ksu.jpg'
-import ExampleComponent from "react-rounded-image";
 import Background from '../ksu-background.jpg';
 
 class Login extends Component {

@@ -3,8 +3,7 @@ import '../Login.css';
 import loading from '../loading.svg'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios';
-import ksuLogo from '../ksu.jpg'
-import Background from '../ksu-background.jpg';
+import ksuLogo from '../ksu.jpg';
 
 class Login extends Component {
   state = {
@@ -19,7 +18,7 @@ class Login extends Component {
 
   handleLogin = () => {
     this.setState({ isLoading: true, isErorr: false });
-    axios.post('http://localhost:5012/getStudentInformation', { id: this.state.id, password: this.state.password }).then(res => {
+    axios.post('http://localhost:5032/getStudentInformation', { id: this.state.id, password: this.state.password }).then(res => {
       console.log(res.data.user.name)
       localStorage.setItem('auth', JSON.stringify(res.data));
       this.props.history.push('/');

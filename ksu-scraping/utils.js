@@ -48,12 +48,15 @@ module.exports = {
         var termsNo = document.querySelectorAll('.pui-accordion-content').length;
         for (var i = 0; i < termsNo; i++) {
           var term = {};
-          term.x =  document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent;
-          term.y = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
-          if (term.x !== '0' && term.x !== '')
-            gpaHistory.push(term);
+          term.y =  parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent);
+          term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
+          if (term.y !== '0' && term.y !== '') {
+            if (term.y !== null) {
+              gpaHistory.push(term);
+            }
+          }
         }
-        return {gpaHistory};
+        return {gpaHistory: gpaHistory.reverse()};
       });  
 
       // let subjects = await page.evaluate((sel) => {

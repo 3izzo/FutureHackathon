@@ -6,6 +6,7 @@ import Main from './pages/main';
 import Subjects from './pages/subjects';
 import Registeration from './pages/registeration';
 import Stats from './pages/stats';
+import Test from './pages/test';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Route path="/subjects"><Subjects /></Route>
           <Route path="/registeration"><Registeration /></Route>
           <Route path="/stats"><Stats /></Route>
+          <Route path="/test"><Test /></Route>
           <Route path="/"><Main /></Route>
         </Switch>
       </div>

@@ -1121,7 +1121,7 @@ html[dir="rtl"] .sidebar .nav i {
 }
 
 html[dir="rtl"] .main-panel {
-  float: left;
+  float: right;
 }
 
 html[dir="rtl"] .card .card-header.card-header-tabs .nav-tabs-title {

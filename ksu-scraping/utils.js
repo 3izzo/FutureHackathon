@@ -63,11 +63,37 @@ module.exports = {
         return subjects;
       });  
 
+      
+      await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_plan/index/forwardAllPlanIndex.faces");
+      await page.waitForNavigation();
+
+      let plan = await page.evaluate((sel) => {
+        var taken = [];
+        var left = [];
+        var allSquares = document.querySelectorAll('td');
+        for (let i = 0; i < allSquares.length; i++) {
+          if (allSquares[i].bgColor == "#5a8842") {
+            var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
+            taken.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+          } else if (allSquares[i].bgColor == "#823838") {
+            var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
+            left.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+            
+          }
+        }
+        return {taken, left}
+      });
+
+      console.log(plan);
+
       const studentInformationJSON = {
         user,
-        subjects: subjects
+        subjects: subjects,
+        plan
       }
-    
+
+      
+
       await page.close();
       return(studentInformationJSON);
     } catch (error) {

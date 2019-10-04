@@ -50,10 +50,8 @@ module.exports = {
           var term = {};
           term.y =  parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent);
           term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
-          if (term.y !== '0' && term.y !== '') {
-            if (term.y !== null) {
+          if (term.y !== 0 && term.y !== '' && Boolean(term.y) && term.y !== undefined) {
               gpaHistory.push(term);
-            }
           }
         }
         return {gpaHistory: gpaHistory.reverse()};

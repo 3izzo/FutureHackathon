@@ -224,7 +224,7 @@ const myGpaLine = (data) => (
     data= {data}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
     xScale={{ type: 'point', }}
-    yScale={{ type: 'linear', stacked: true, min: "auto", max: "auto" ,}}
+    yScale={{ type: 'linear', stacked: true, min: "1", max: "5" ,}}
     axisTop={null}
     axisRight={null}
     curve="cardinal"
@@ -246,7 +246,7 @@ const myGpaLine = (data) => (
       legendOffset: -40,
       legendPosition: 'middle'
     }}
-    // enableGridX={false}
+    enableGridX={false}
     // enableGrid={false}
     colors={{scheme: 'accent'}}
     pointSize={6}
@@ -287,7 +287,7 @@ const myHoursLine = () => (
       legendOffset: -40,
       legendPosition: 'middle'
     }}
-    // enableGridX={false}
+    enableGridX={false}
     // enableGrid={false}
     colors={{scheme: 'set1'}}
     pointSize={6}

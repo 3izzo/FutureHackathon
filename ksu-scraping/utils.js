@@ -43,15 +43,18 @@ module.exports = {
       
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_transcript/index/studentTranscriptAllIndex.faces");
       
-      let lastHours = await page.evaluate((sel) => {
-        return document.querySelector('#myForm\\:allTranscriptTable\\:1\\:default > div:nth-child(2) > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(3)')
-          .textContent;
-      });
-
-      let lastPoints = await page.evaluate((sel) => {
-        return document.querySelector('#myForm\\:allTranscriptTable\\:1\\:default > div:nth-child(2) > table:nth-child(3) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(5)')
-          .textContent;
-      });
+      let stats = await page.evaluate(() => {
+        var gpaHistory = [];
+        var termsNo = document.querySelectorAll('.pui-accordion-content').length;
+        for (var i = 0; i < termsNo; i++) {
+          var term = {};
+          term.x =  document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent;
+          term.y = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
+          if (term.x !== '0' && term.x !== '')
+            gpaHistory.push(term);
+        }
+        return {gpaHistory};
+      });  
 
       // let subjects = await page.evaluate((sel) => {
       //   var subjectsCount = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children.length;
@@ -106,7 +109,8 @@ module.exports = {
       const studentInformationJSON = {
         user,
         subjects: subjects,
-        plan
+        plan, 
+        stats
       }
 
       await page.close();

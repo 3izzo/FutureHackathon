@@ -47,7 +47,7 @@ class Main extends Component {
           <Nav />
           {/* End Navbar */}
           <div className="content">
-            <div className="container-fluid" style={{ width: 'calc(100% - 100px)' }}>
+            <div className="container">
 
               <div className="row">
                 <div className="card card-profile">

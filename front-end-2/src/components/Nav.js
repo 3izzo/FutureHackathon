@@ -17,7 +17,7 @@ export default class Nav extends Component {
           <div className="collapse navbar-collapse justify-content-end">
             <form className="navbar-form">
               <div className="input-group no-border">
-                <input type="text" defaultValue className="form-control" value="" />
+                {/* <input type="text" defaultValue className="form-control" value="" /> */}
                 <button type="submit" className="btn btn-white btn-round btn-just-icon">
                   <i className="material-icons">search</i>
                   <div className="ripple-container" />
@@ -41,13 +41,6 @@ export default class Nav extends Component {
                     اعلان‌ها
                   </p>
                 </a>
-                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a className="dropdown-item" href="#">محمدرضا به ایمیل شما پاسخ داد</a>
-                  <a className="dropdown-item" href="#">شما ۵ وظیفه جدید دارید</a>
-                  <a className="dropdown-item" href="#">از حالا شما با علیرضا دوست هستید</a>
-                  <a className="dropdown-item" href="#">اعلان دیگر</a>
-                  <a className="dropdown-item" href="#">اعلان دیگر</a>
-                </div>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#pablo">

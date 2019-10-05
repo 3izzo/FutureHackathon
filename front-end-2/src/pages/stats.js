@@ -3,8 +3,6 @@ import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import { ResponsiveLine } from '@nivo/line';
 import { ResponsiveBar } from '@nivo/bar';
-import { FaBeer } from 'react-icons/fa';
-import { ICON_NAME } from 'react-icons/md';
 import insert_chart from '../insert_chart-24px.svg';
 import insert_chart2 from '../show_chart-24px.svg';
 

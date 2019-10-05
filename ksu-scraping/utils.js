@@ -3,9 +3,9 @@ const fs = require('fs');
 const courses = require('./courses.json');
 
 module.exports = {
-  getStudentInformation: async function(id, password, page) {
+  getStudentInformation: async function (id, password, page) {
     try {
-      await page.setViewport({height: 1080, width: 1920});
+      await page.setViewport({ height: 1080, width: 1920 });
       await page.goto('https://edugate.ksu.edu.sa/ksu/init');
       await page.setCacheEnabled(true)
       // choosing the student
@@ -13,20 +13,20 @@ module.exports = {
       await page.click('tbody > tr > td > .ui-state-default > .ui-corner-all')
       await page.waitForSelector('body > .pui-dropdown-panel > .pui-dropdown-items-wrapper > .pui-dropdown-items > .pui-dropdown-item:nth-child(2)')
       await page.click('body > .pui-dropdown-panel > .pui-dropdown-items-wrapper > .pui-dropdown-items > .pui-dropdown-item:nth-child(2)')
-      
+
       // entering the id
       await page.waitForSelector("input[name='loginForm:username']")
       await page.click("input[name='loginForm:username']")
       await page.keyboard.type(id);
-    
+
       // entering the password
       await page.waitForSelector("input[name='loginForm:password']")
       await page.click("input[name='loginForm:password']")
       await page.keyboard.type(password);
       await page.keyboard.press('Enter')
-    
-      await page.waitForNavigation({timeout: 6000});
-    
+
+      await page.waitForNavigation({ timeout: 6000 });
+
       // getting the current gpa
       let user = await page.evaluate((sel) => {
         var user = {};
@@ -39,7 +39,7 @@ module.exports = {
         return user;
       });
       user.stdNo = id;
-            
+
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_transcript/index/studentTranscriptAllIndex.faces");
 
       let stats = await page.evaluate(() => {
@@ -47,33 +47,40 @@ module.exports = {
         var termsNo = document.querySelectorAll('.pui-accordion-content').length;
         for (var i = 0; i < termsNo; i++) {
           var term = {};
-          term.y =  parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent);
-          term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
+          term.y = parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[5].textContent);
+          term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/', '-');
           if (term.y !== 0 && term.y !== '' && Boolean(term.y) && term.y !== undefined) {
-              gpaHistory.push(term);
+            gpaHistory.push(term);
           }
         }
 
         var hoursHistory = [];
+        function reverseString(str) {
+          var splitString = str.split("");
+          var reverseArray = splitString.reverse();
+          var joinArray = reverseArray.join("");
+          return joinArray; 
+        }
         for (var i = 0; i < termsNo; i++) {
           var term = {};
-          term.y =  parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[3].textContent);
-          term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
+          term.y = parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[3].textContent);
+          term.x = reverseString(document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim()).split(' ')[0];
+
           if (term.y !== 0 && term.y !== '' && Boolean(term.y) && term.y !== undefined) {
-              hoursHistory.push(term);
+            hoursHistory.push(term);
           }
         }
 
         var gpa = {};
         var currentGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
         var lastGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[2].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
-        var increaseRate = ( currentGPA * 100 / 5 ) - ( lastGPA * 100 / 5 );
-        gpa = {currentGPA, lastGPA, rate: increaseRate.toFixed(2) };
+        var increaseRate = (currentGPA * 100 / 5) - (lastGPA * 100 / 5);
+        gpa = { currentGPA, lastGPA, rate: increaseRate.toFixed(2) };
 
         var totalHours = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[3].textContent);
 
-        return {gpaHistory: gpaHistory.reverse(), hoursHistory: hoursHistory.reverse(), gpa, totalHours};
-      });  
+        return { gpaHistory: gpaHistory.reverse(), hoursHistory: hoursHistory.reverse(), gpa, totalHours };
+      });
 
       // let subjects = await page.evaluate((sel) => {
       //   var subjectsCount = document.querySelector('#myForm\\:allTranscriptTable\\:0\\:default > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(4) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(2)').children.length;
@@ -86,7 +93,7 @@ module.exports = {
       //   return subjects;
       // });  
 
-      
+
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_plan/index/forwardAllPlanIndex.faces");
       await page.waitForNavigation();
 
@@ -96,18 +103,18 @@ module.exports = {
         var allSquares = document.querySelectorAll('td');
         for (let i = 0; i < allSquares.length; i++) {
           if (allSquares[i].bgColor == "#5a8842") {
-            var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
+            var subject = allSquares[i].textContent.replace(/\s+/g, '').slice(0, 6)
             if (subject !== '') {
-              taken.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+              taken.push(`${subject.slice(0, 3)} ${subject.slice(3, 6)}`);
             }
           } else if (allSquares[i].bgColor == "#823838" || allSquares[i].bgColor == "#D3E0E8") {
-            var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
+            var subject = allSquares[i].textContent.replace(/\s+/g, '').slice(0, 6)
             if (subject !== '') {
-              left.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+              left.push(`${subject.slice(0, 3)} ${subject.slice(3, 6)}`);
             }
           }
         }
-        return {taken, left}
+        return { taken, left }
       });
 
       stats.totalCourses = plan.taken.length;
@@ -118,7 +125,7 @@ module.exports = {
       let subjects = await page.evaluate((courses) => {
         var subjectsCount = document.querySelectorAll('tr.ROW1, tr.ROW2').length - 2;
         var subjects = [];
-        for(var i = 0; i < subjectsCount; i++) {
+        for (var i = 0; i < subjectsCount; i++) {
           var subject = {};
           var sectionID = document.querySelectorAll('tr.ROW1, tr.ROW2')[i].children[4].textContent;
           for (let j = 0; j < courses.length; j++) {
@@ -128,17 +135,17 @@ module.exports = {
           }
         }
         return subjects;
-      }, courses);  
+      }, courses);
 
       const studentInformationJSON = {
         user,
         subjects: subjects,
-        plan, 
+        plan,
         stats
       }
 
       await page.close();
-      return(studentInformationJSON);
+      return (studentInformationJSON);
     } catch (error) {
       await page.close();
       console.log(error.message);

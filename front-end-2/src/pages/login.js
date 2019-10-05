@@ -3,7 +3,7 @@ import '../Login.css';
 import loading from '../loading.svg'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios';
-import ksuLogo from '../ksu.jpg';
+import ksuLogo from '../ksu-login-logo.png';
 
 class Login extends Component {
   state = {
@@ -17,29 +17,34 @@ class Login extends Component {
   }
 
   handleLogin = () => {
-    this.setState({ isLoading: true, isErorr: false });
-    axios.post('http://localhost:5012/getStudentInformation', { id: this.state.id, password: this.state.password }).then(res => {
-      console.log(res.data.user.name)
-      localStorage.setItem('auth', JSON.stringify(res.data));
-      this.props.history.push('/');
-    }).catch((error) => {
-      console.log('there is an error');
-      this.setState({ isLoading: false, isErorr: true })
-    })
-
+    console.log(this.state.id === '');
+    if (this.state.id === '' || this.state.password === '') {
+      this.setState({isError: true});
+    } else {
+      this.setState({ isLoading: true, isErorr: false });
+      axios.post('http://localhost:5012/getStudentInformation', { id: this.state.id, password: this.state.password }).then(res => {
+        console.log(res.data.user.name)
+        localStorage.setItem('auth', JSON.stringify(res.data));
+        this.props.history.push('/');
+      }).catch((error) => {
+        console.log('there is an error');
+        this.setState({ isLoading: false, isErorr: true })
+      })
+    }
   }
 
   render() {
     return (
       <div>
-                  
-          <div className="card-container text-center align-center d-flex justify-content-center">
+        <div style={{ background: '#e3e1e1', margin: 'auto', width: '100%', textAlign: 'center', paddingTop: '62px' }}>
+          <img src={ksuLogo} width={72} height={110} />
+        </div>
+        <div className="card-container text-center align-center d-flex justify-content-center">
           <div className="card login-card" style={(this.state.isErorr) ? { maxHeight: '420px' } : { maxHeight: '350px' }}>
             <form className="form-signin" dir="rtl" onSubmit={(e) => { e.preventDefault() }}>
-            <img src={ksuLogo} width={72} height={72} rounded/>
-              <img className="logo" src="/images/favicons/ms-icon-150x150.png" alt="" width={72} height={72}  />
+              <img className="logo" src="/images/favicons/ms-icon-150x150.png" alt="" width={72} height={72} />
               <h1 className="login-title h3 mb-3 font-weight-normal force-font">تسجيل الدخول</h1>
-              {(this.state.isErorr) ? <div class="alert alert-warning" role="alert">
+              {(this.state.isErorr) ? <div class="alert alert-danger" role="alert">
                 الرقم الجامعي أو كلمة السر غير صحيحة
                  </div> : <div></div>}
               <label htmlFor="student_id" className="sr-only">الرقم الجامعي</label>

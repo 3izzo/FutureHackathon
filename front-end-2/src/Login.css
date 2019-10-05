@@ -63,7 +63,7 @@
 }
 
 .login-button {
-  background-color: #970916 !important;
+  background-color: #0084bd !important;
   margin-top: 49px;
 }
 
@@ -77,11 +77,10 @@
 
 .card-container {
   width: 100vw;
-  height: 100vh;
-  background: #d4d4d4;
+  height: calc(100vh - 170px);
+  background: #e3e1e1;
 }
 
 .login-card {
   width: 335px;
-  top: 10vh;
 }

@@ -64,7 +64,7 @@ module.exports = {
         for (var i = 0; i < termsNo; i++) {
           var term = {};
           term.y = parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[3].textContent);
-          term.x = reverseString(reverseString(document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].replace('/', '-').trim()).split(' ')[0]);
+          term.x = reverseString(reverseString(document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].replace('/', '-').trim()).split(' ')[0]) + ' الفصل';
 
           if (term.y !== 0 && term.y !== '' && Boolean(term.y) && term.y !== undefined) {
             hoursHistory.push(term);

@@ -11,6 +11,7 @@ class Nav extends Component {
 
   logout = () => {
     localStorage.removeItem('auth');
+    localStorage.removeItem('sched');
     this.props.history.push('/login');
   }
 
@@ -20,7 +21,7 @@ class Nav extends Component {
         <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
           <div className="container-fluid">
             <div className="navbar-wrapper">
-              <a className="navbar-brand" href="#pablo">لوحة التحكم</a>
+              <a className="navbar-brand" href="/">الصفحة الرئيسة</a>
             </div>
 
             <div className="collapse navbar-collapse justify-content-end">
@@ -37,21 +38,6 @@ class Nav extends Component {
             </div>
           </div>
         </nav>
-          {
-            (this.props.history.location.pathname !== '/') ? (
-              <div class="container" style={{marginTop: '77px', marginBottom: '-62px'}}>
-                <button 
-                class="btn btn-info btn-lg btn-round"
-                onClick={() => {
-                  this.props.history.push('/');
-                }}>
-                  <i class="material-icons" style={{fontSize: '25px'}}>arrow_forward</i> الرجوع
-                </button>
-              </div>
-            ) : (
-              <div />
-            )
-          }
 
       </div>
     )

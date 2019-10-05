@@ -120,11 +120,13 @@ export default class Registeration extends Component {
       MySwal.fire({
         type: 'error',
         title: 'تم إضافة المادة مسبقا',
+        confirmButtonText: 'حسنا',
       })
     } else {
       MySwal.fire({
         type: 'error',
         title: 'يوجد تعارض مع مادة ' + taarod.shortName + " شعبة رقم " + taarod.sectionID,
+        confirmButtonText: 'حسنا',
       })
     }
     return true;
@@ -154,6 +156,8 @@ export default class Registeration extends Component {
       inputOptions,
       inputPlaceholder: 'اختر المقرر',
       showCancelButton: true,
+      confirmButtonText: 'اختر',
+      cancelButtonText: 'إلغاء',
     }).then((result) => {
       if (result.value) {
         let course = inputOptions[result.value].split(" | ")[0];

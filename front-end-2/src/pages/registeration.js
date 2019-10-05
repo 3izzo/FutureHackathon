@@ -37,14 +37,17 @@ export default class Registeration extends Component {
       document.location = '/login';
     } else {
       let x = sections.filter((item) => { return auth.plan.left.includes(item.shortName) });
-      let pairs = findPairs(auth.subjects);
-      let all = [];
-      pairs.forEach(p => {
-        all.push(p);
-        p.relatives.forEach(r => {
-          all.push(r);
+      let all = JSON.parse(localStorage.getItem("sched"));
+      if (!all || all.length == 0) {
+        all = [];
+        let pairs = findPairs(auth.subjects);
+        pairs.forEach(p => {
+          all.push(p);
+          p.relatives.forEach(r => {
+            all.push(r);
+          });
         });
-      });
+      }
       this.setState({
         possibleClasses: x,
         possibleCoarses: auth.plan.left,
@@ -109,6 +112,7 @@ export default class Registeration extends Component {
       clazz.relatives.forEach(element => {
         this.state.currentSelection.push(element);
       });
+      localStorage.setItem("sched", JSON.stringify(this.state.currentSelection));
       this.setState({
         addData: { name: "", pairs: [], count: 0 }
       })
@@ -129,6 +133,7 @@ export default class Registeration extends Component {
     let cs = this.state.currentSelection.filter((clazz2) => {
       return clazz2.shortName !== clazz1.shortName;
     })
+    localStorage.setItem("sched", JSON.stringify(cs));
     this.setState({ currentSelection: cs });
   }
   addClassModal = () => {

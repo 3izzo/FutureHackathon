@@ -7,6 +7,7 @@ import Subjects from './pages/subjects';
 import Registeration from './pages/registeration';
 import Stats from './pages/stats';
 import Test from './pages/test';
+import './App.css';
 
 class App extends Component {
   render() {

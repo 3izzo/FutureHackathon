@@ -23,7 +23,7 @@ class Footer extends Component {
               </ul>
             </nav>
             <div className="copyright float-right">
-              نادي تقنية المستقبل
+              صنع بـ❤️
             </div>
           </div>
         </footer>

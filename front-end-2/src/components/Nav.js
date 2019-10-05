@@ -38,21 +38,6 @@ class Nav extends Component {
             </div>
           </div>
         </nav>
-          {
-            (this.props.history.location.pathname !== '/') ? (
-              <div class="container" style={{marginTop: '77px', marginBottom: '-62px'}}>
-                <button 
-                class="btn btn-info btn-lg btn-round"
-                onClick={() => {
-                  this.props.history.push('/');
-                }}>
-                  <i class="material-icons" style={{fontSize: '25px'}}>arrow_forward</i> الرجوع
-                </button>
-              </div>
-            ) : (
-              <div />
-            )
-          }
 
       </div>
     )

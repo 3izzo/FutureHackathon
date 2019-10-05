@@ -56,7 +56,7 @@ export default class Calendar extends Component {
       fullName: "",
       doctor: "",
       type: "",
-      sectionId: 0,
+      sectionID: 0,
       times: [
         {
           day: "1", from: "00:00", to: "00:50", room: "",
@@ -140,7 +140,7 @@ export default class Calendar extends Component {
                   </tr>
                   <tr>
                     <td style={{ width: "20vh" }}>رقم الشعبة:</td>
-                    <td style={{ width: "50%" }}>{this.state.mainClass.sectionId}</td>
+                    <td style={{ width: "50%" }}>{this.state.mainClass.sectionID}</td>
                   </tr>
                   <tr>
                     <td style={{ width: "20vh" }}>الفعالية:</td>

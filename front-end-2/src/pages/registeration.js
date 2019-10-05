@@ -32,14 +32,11 @@ function findPairs(classes) {
 export default class Registeration extends Component {
   state = { currentSelection: [], possibleClasses: [], possibleCoarses: [], addData: { name: "", pairs: [], count: 0 } };
   componentDidMount() {
-    // console.log(sections);
     const auth = JSON.parse(localStorage.getItem('auth'));
-    // console.log(auth);
     if (auth === null) {
       document.location = '/login';
     } else {
       let x = sections.filter((item) => { return auth.plan.left.includes(item.shortName) });
-      // console.log(auth);
       let pairs = findPairs(auth.subjects);
       let all = [];
       pairs.forEach(p => {
@@ -69,16 +66,15 @@ export default class Registeration extends Component {
           for (let i = from; i < to; i++) {
             if (booleanMatrix[parseInt(time.day) - 1][i])
               return false;
-            booleanMatrix[parseInt(time.day) - 1][i] = true;
+            booleanMatrix[parseInt(time.day) - 1][i] = element;
           }
-          console.log(time);
         }
       }
     }
     const canAdd = (x) => {
       let found = this.state.currentSelection.find((object) => { return object.shortName === x.shortName });
       if (found && found.length != 0)
-        return "duplicate";
+        return { canAdd: "duplicate" };
 
       for (let k = 0; k < x.times.length; k++) {
         const time = x.times[k];
@@ -88,7 +84,7 @@ export default class Registeration extends Component {
           let to = parseInt(time.to.split(":")[0]) + 1;
           for (let i = from; i < to; i++) {
             if (booleanMatrix[parseInt(time.day) - 1][i])
-              return false;
+              return { canAdd: false, taarod: booleanMatrix[parseInt(time.day) - 1][i] };
           }
         }
       }
@@ -96,12 +92,21 @@ export default class Registeration extends Component {
       if (x.relatives)
         for (let i = 0; i < x.relatives.length; i++) {
           const element = x.relatives[i];
-          if (!canAdd(element))
-            return false;
+          let ca = canAdd(element);
+          if (ca.canAdd !== true)
+            return ca;
         }
-      return true;
+      return { canAdd: true };
     }
-    let canAddRes = canAdd(clazz);
+    const ca = canAdd(clazz);
+    console.log(ca);
+
+    const canAddRes = ca.canAdd;
+    const taarod = ca.taarod;
+    console.log(canAddRes);
+    console.log(taarod);
+
+
     if (canAddRes === true) {
       this.state.currentSelection.push(clazz);
       clazz.relatives.forEach(element => {
@@ -118,7 +123,7 @@ export default class Registeration extends Component {
     } else {
       MySwal.fire({
         type: 'error',
-        title: 'يوجد تعارض',
+        title: 'يوجد تعارض مع مادة ' + taarod.shortName + " شعبة رقم " + taarod.sectionID,
       })
     }
     return true;
@@ -133,7 +138,14 @@ export default class Registeration extends Component {
     let inputOptions = {};
     for (let i = 0; i < this.state.possibleCoarses.length; i++) {
       const e = this.state.possibleCoarses[i];
-      inputOptions[i] = e;
+      let found = this.state.currentSelection.find((o) => {
+        console.log(o, e);
+        return o.shortName === e
+      });
+      if (found && found.length != 0)
+        inputOptions[i] = e + ' | مضافة';
+      else
+        inputOptions[i] = e;
     }
     MySwal.fire({
       title: 'اختر المقرر',
@@ -143,7 +155,7 @@ export default class Registeration extends Component {
       showCancelButton: true,
     }).then((result) => {
       if (result.value) {
-        let course = inputOptions[result.value];
+        let course = inputOptions[result.value].split(" | ")[0];
         let possibleClasses = this.state.possibleClasses.filter((item) => { return item.shortName === course });
         let pairs = findPairs(possibleClasses);
 
@@ -152,9 +164,6 @@ export default class Registeration extends Component {
             name: course, pairs: pairs, count: possibleClasses.length
           }
         })
-        console.log(possibleClasses);
-        console.log(pairs);
-
       }
     })
   }
@@ -185,7 +194,7 @@ export default class Registeration extends Component {
       >
         <i className="material-icons">add</i>
       </button></td>)
-      if (i == 0) {
+      if (i === 0) {
         cells.unshift(<td rowSpan={totalTempCount} key={0}>{this.state.addData.name}</td>)
         cells.push(<td rowSpan={totalTempCount} key={7}><button type="button" className="btn btn-danger btn-round"
           onClick={() => { this.setState({ addData: { name: "", pairs: [], count: 0 } }) }}>
@@ -195,7 +204,7 @@ export default class Registeration extends Component {
       rows.push(<tr key={i} className="bg-warning">{cells}</tr>);
 
       element.relatives.forEach(element2 => {
-        rows.push(<tr key={element2.sectionID} className="bg-warning">{getCells(element2)}</tr>);
+        rows.push(<tr key={element2.sectionID + " " + rows.length} className="bg-warning">{getCells(element2)}</tr>);
 
       });
     }
@@ -215,8 +224,6 @@ export default class Registeration extends Component {
   };
 
   render() {
-    console.log(this.state);
-
     return (
       <div className="main-panel">
         {/* Navbar */}

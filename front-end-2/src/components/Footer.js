@@ -1,32 +1,29 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 
-export default class Footer extends Component {
+class Footer extends Component {
+
+  logout = () => {
+    localStorage.removeItem('auth');
+    this.props.history.push('/login');
+  }
+
   render() {
     return (
-      <div>
+      <div style={{marginTop: '50px'}}>
         <footer className="footer">
           <div className="container-fluid">
-            {/* <nav className="float-left">
+            <nav className="float-left">
               <ul>
                 <li>
-                  <a href="https://www.creative-tim.com">
-                    انس
-                  </a>
-                </li>
-                <li>
-                  <a href="https://creative-tim.com/presentation">
-                    عبادة
-                  </a>
-                </li>
-                <li>
-                  <a href="http://blog.creative-tim.com">
-                    وضاح
+                  <a style={{color: '#ad4e4e'}} href="#" onClick={this.logout}>
+                    تسجيل خروج
                   </a>
                 </li>
               </ul>
-            </nav> */}
+            </nav>
             <div className="copyright float-right">
-              نادي تقنية المستقبل
+              صنع بـ❤️
             </div>
           </div>
         </footer>
@@ -34,3 +31,5 @@ export default class Footer extends Component {
     )
   }
 }
+
+export default withRouter(Footer);

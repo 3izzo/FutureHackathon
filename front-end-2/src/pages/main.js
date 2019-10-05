@@ -3,7 +3,8 @@ import ksuLogo from '../ksu.jpg'
 import { withRouter } from 'react-router-dom'
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import sections from '../courses.json'
+import sections from '../courses.json';
+import stats_icon from '../pie_chart-24px.svg';
 
 class Main extends Component {
   state = {
@@ -55,9 +56,9 @@ class Main extends Component {
                     </a>
                   </div>
                   <div className="card-body">
-                    <h4 className="card-title" style={{ marginBottom: '10px' }}>{this.state.name}</h4>
-                    <h6 className="card-title">{this.state.collage}</h6>
-                    <h6 className="card-title">{this.state.major}</h6>
+                    <h4 className="card-title" style={{ marginBottom: '10px', fontWeight: 800 }}>{this.state.name}</h4>
+                    <h6 className="card-title" style={{fontSize: '15px'}}>{this.state.collage}</h6>
+                    <h6 className="card-title" style={{fontSize: '14px', marginTop: '7px'}}>{this.state.major}</h6>
                     <br/>
                     <div className="container" style={{marginBottom: '-26px'}}>
                       <table className="table" >
@@ -104,7 +105,7 @@ class Main extends Component {
                     this.props.history.push('/stats');
                   }}
                   >
-                    <i class="material-icons" style={{fontSize: '53px'}}>favorite</i>
+                    <i class="material-icons" style={{fontSize: '53px'}}>assessment</i>
                     <br/> 
                     <br/>
                     الاحصائيات

@@ -69,7 +69,7 @@ module.exports = {
         var currentGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
         var lastGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[2].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
         var increaseRate = ( currentGPA * 100 / 5 ) - ( lastGPA * 100 / 5 );
-        gpa = {currentGPA, lastGPA, rate: `${increaseRate.toFixed(2)} %` };
+        gpa = {currentGPA, lastGPA, rate: increaseRate.toFixed(2) };
 
         var totalHours = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[3].textContent);
 

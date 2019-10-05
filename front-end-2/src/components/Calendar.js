@@ -69,30 +69,30 @@ export default class Calendar extends Component {
     const percent = 100 / 6 + "%";
     rows.push(
       <tr key={"head"}>
-        <th></th>
-        <th>
+        <th style={{textAlign: 'center'}}></th>
+        <th style={{textAlign: 'center'}}>
           الأحد
       </th>
-        <th>
+        <th style={{textAlign: 'center'}}>
           الاثنين
         </th>
-        <th>
+        <th style={{textAlign: 'center'}}>
           الثلاثاء
         </th>
-        <th>
+        <th style={{textAlign: 'center'}}>
           الأربعاء
         </th>
-        <th>
+        <th style={{textAlign: 'center'}}>
           الخميس
         </th>
       </tr>)
     for (let i = data.startHour; i < data.endHour; i++) {
       let row = [];
-      row.push(<td key={-1} style={{ width: percent, height: ("7.5vh") }}>{i}:00</td>)
+      row.push(<td key={-1} style={{ width: percent, height: ("7.5vh"), textAlign: 'center' , fontWeight: 800 }}>{i}:00</td>)
       for (let j = 0; j < data.times.length; j++) {
         const datum = data.times[j][i];
         if (datum === undefined)
-          row.push(<td key={j} style={{ width: percent, height: ("7.5vh") }}></td>)
+          row.push(<td key={j} style={{ width: percent, height: ("7.5vh"), textAlign: 'center' }}></td>)
         else {
           if (datum !== null)
             row.push(
@@ -158,7 +158,7 @@ export default class Calendar extends Component {
             </div>
           </div>
         </div>
-        <table className="table table-striped table-dark table-borderless">
+        <table className="calander calendar-table table table-striped table-dark table-borderless">
           <tbody style={{ minHeight: "20vh" }}>
             {this.getCells(data)}
           </tbody>

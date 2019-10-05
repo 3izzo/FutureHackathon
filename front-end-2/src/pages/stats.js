@@ -278,7 +278,7 @@ const myHoursLine = (data) => (
     data={data}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
     xScale={{ type: 'point', }}
-    yScale={{ type: 'linear', stacked: true, min: "auto", max: "auto", }}
+    yScale={{ type: 'linear', stacked: true, min: "1", max: "20", }}
     axisTop={null}
     axisRight={null}
     curve="cardinal"
@@ -377,7 +377,7 @@ export default class Stats extends Component {
                       <div className="card-icon">
                         <i className="material-icons">insert_chart</i>
                       </div>
-                      <p className="card-category">المعدل السابق </p>
+                      <p className="card-category">المعدل التراكمي </p>
                       <h3 className="card-title">{this.state.gpaL}
                       </h3>
                     </div>

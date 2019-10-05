@@ -69,6 +69,7 @@ export default class Calendar extends Component {
     const percent = 100 / 6 + "%";
     rows.push(
       <tr key={"head"}>
+        <th></th>
         <th>
           الأحد
       </th>
@@ -120,7 +121,6 @@ export default class Calendar extends Component {
 
   render() {
     let data = fixData(this.props.classes);
-    console.log(data);
     return (
       <div>
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

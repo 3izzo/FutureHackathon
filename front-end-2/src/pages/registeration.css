@@ -1,0 +1,9 @@
+td>button{
+    height: 100%;
+    width: 41px;
+    padding: 0 !important;
+}
+
+td{
+    height: 1px;
+}

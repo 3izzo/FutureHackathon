@@ -42,7 +42,7 @@ module.exports = {
       user.password = password;
       
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_transcript/index/studentTranscriptAllIndex.faces");
-      
+
       let stats = await page.evaluate(() => {
         var gpaHistory = [];
         var termsNo = document.querySelectorAll('.pui-accordion-content').length;
@@ -54,7 +54,26 @@ module.exports = {
               gpaHistory.push(term);
           }
         }
-        return {gpaHistory: gpaHistory.reverse()};
+
+        var hoursHistory = [];
+        for (var i = 0; i < termsNo; i++) {
+          var term = {};
+          term.y =  parseFloat(document.querySelectorAll('.pui-accordion-content')[i].children[2].children[0].children[1].children[0].children[0].children[1].children[0].children[3].textContent);
+          term.x = document.querySelectorAll('.pui-accordion-content')[i].children[0].children[0].children[0].children[0].textContent.split('(')[0].trim().replace('/','-');
+          if (term.y !== 0 && term.y !== '' && Boolean(term.y) && term.y !== undefined) {
+              hoursHistory.push(term);
+          }
+        }
+
+        var gpa = {};
+        var currentGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
+        var lastGPA = parseFloat(document.querySelectorAll('.pui-accordion-content')[2].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[5].textContent);
+        var increaseRate = ( currentGPA * 100 / 5 ) - ( lastGPA * 100 / 5 );
+        gpa = {currentGPA, lastGPA, rate: `${increaseRate.toFixed(2)} %` };
+
+        var totalHours = parseFloat(document.querySelectorAll('.pui-accordion-content')[1].children[2].children[0].children[1].children[0].children[0].children[1].children[1].children[3].textContent);
+
+        return {gpaHistory: gpaHistory.reverse(), hoursHistory: hoursHistory.reverse(), gpa, totalHours};
       });  
 
       // let subjects = await page.evaluate((sel) => {
@@ -91,6 +110,8 @@ module.exports = {
         }
         return {taken, left}
       });
+
+      stats.totalCourses = plan.taken.length;
 
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_schedule/index/forwardStudentSchedule.faces");
       await page.waitForNavigation();

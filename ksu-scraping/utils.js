@@ -79,11 +79,14 @@ module.exports = {
         for (let i = 0; i < allSquares.length; i++) {
           if (allSquares[i].bgColor == "#5a8842") {
             var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
-            taken.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
-          } else if (allSquares[i].bgColor == "#823838") {
+            if (subject !== '') {
+              taken.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+            }
+          } else if (allSquares[i].bgColor == "#823838" || allSquares[i].bgColor == "#D3E0E8") {
             var subject = allSquares[i].textContent.replace(/\s+/g,'').slice(0,6)
-            left.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
-            
+            if (subject !== '') {
+              left.push(`${subject.slice(0,3)} ${subject.slice(3,6)}`);
+            }
           }
         }
         return {taken, left}

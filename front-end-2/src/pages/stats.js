@@ -7,6 +7,15 @@ import insert_chart from '../insert_chart-24px.svg';
 import insert_chart2 from '../show_chart-24px.svg';
 
 
+function isIncreased(rate){
+  if (rate>0)
+    return <div className="stats"><span class="text-success" style={{marginLeft: '10px'}}><i class="fa fa-long-arrow-up"></i>  {rate+"%"} </span>  معدل الزيادة عن الترم السابق </div> 
+  if (rate==0)
+     return <div className="stats"><span class="text-warning" style={{marginLeft: '10px'}}><i class="fa fa-long"></i>  {rate +"%"}</span> المعدل ثابت </div> 
+  if (rate<0)
+    return <div className="stats"><span class="text-danger" style={{marginLeft: '10px'}}><i class="fa fa-long-arrow-down"></i>  {rate+"%"} </span>  معدل النزول عن الترم السابق </div> 
+}
+
 
 const subjectGrades = () => (
   <ResponsiveBar
@@ -319,16 +328,25 @@ export default class Stats extends Component {
       this.setState({
         gpaHistory: input
       })
-      let input1 = [{ data: stats.hoursHistory }]
+      let hoursInput = [{ data: stats.hoursHistory }]
       this.setState({
-        hoursHistory: input1
+        hoursHistory: hoursInput
       })
-      let input3 = stats.gpa.rate;
+
+      let gpaRate = stats.gpa.rate;
+      let gpaC = stats.gpa.currentGPA;
+      let totalH = stats.totalHours;
+      let totalC = stats.totalCourses;
+      let gpaL = stats.gpa.lastGPA;
+
+      this.setState({rate: gpaRate, hoursHistory: hoursInput, currentGPA: gpaC, gpaL: gpaL, totalH: totalH, totalC: totalC});
     }
   }
 
   render() {
     console.log(this.state.gpaHistory);
+    console.log(this.state.hoursHistory);
+
     return (
 
       <div className="wrapper ">
@@ -336,7 +354,7 @@ export default class Stats extends Component {
           {/* Navbar */}
           <Nav />
           {/* End Navbar */}
-          <div className="content">
+          <div className="content container">
             <div className="row">
             <div className="col col-md-3">
                   <div className="card card-stats">
@@ -345,41 +363,22 @@ export default class Stats extends Component {
                         <i className="material-icons">insert_chart</i>
                       </div>
                       <p className="card-category">المعدل التراكمي </p>
-                      <h3 className="card-title">4.57
+                      <h3 className="card-title">{this.state.currentGPA}
                       </h3>
                     </div>
                     <div className="card-footer">
-                      <div className="stats">
-                      <span class="text-success"><i class="fa fa-long-arrow-up"></i>  {this.state.input3} </span>  معدل الزيادة عن الترم السابق 
-                   </div>
+                      {isIncreased(this.state.rate)}
                     </div>
                   </div>
                 </div>
                 <div className="col col-md-3">
                   <div className="card card-stats">
-                    <div className="card-header card-header card-header-icon">
+                    <div className="card-header card-header-info card-header-icon">
                       <div className="card-icon">
                         <i className="material-icons">insert_chart</i>
                       </div>
                       <p className="card-category">المعدل السابق </p>
-                      <h3 className="card-title">4.44
-                      </h3>
-                    </div>
-                    <div className="card-footer">
-                      <div className="stats">
-                        <i className="material-icons">access_time</i> آخر تحديث الترم الحالي
-                   </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col col-md-3">
-                  <div className="card card-stats">
-                    <div className="card-header card-header card-header-icon">
-                      <div className="card-icon">
-                        <i className="material-icons">insert_chart</i>
-                      </div>
-                      <p className="card-category">المعدل السابق </p>
-                      <h3 className="card-title">4.44
+                      <h3 className="card-title">{this.state.gpaL}
                       </h3>
                     </div>
                     <div className="card-footer">
@@ -391,12 +390,29 @@ export default class Stats extends Component {
                 </div>
                 <div className="col col-md-3">
                   <div className="card card-stats">
-                    <div className="card-header card-header card-header-icon">
+                    <div className="card-header card-header-warning card-header-icon">
                       <div className="card-icon">
-                        <i className="material-icons">insert_chart</i>
+                        <i className="material-icons">subject</i>
                       </div>
-                      <p className="card-category">المعدل السابق </p>
-                      <h3 className="card-title">4.44
+                      <p className="card-category">عدد المواد المجتازة</p>
+                      <h3 className="card-title">{this.state.totalC}
+                      </h3>
+                    </div>
+                    <div className="card-footer">
+                      <div className="stats">
+                        <i className="material-icons">access_time</i> آخر تحديث الترم الحالي
+                   </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col-md-3">
+                  <div className="card card-stats">
+                    <div className="card-header card-header-danger card-header-icon">
+                      <div className="card-icon">
+                        <i className="material-icons">access_time</i>
+                      </div>
+                      <p className="card-category">عدد الساعات المجتازة </p>
+                      <h3 className="card-title">{this.state.totalH}
                       </h3>
                     </div>
                     <div className="card-footer">
@@ -445,7 +461,7 @@ export default class Stats extends Component {
               <div className="col-md-6">
                 <div className="card card-chart">
                   <div className="card-header card-header-danger">
-                    <h4 className="card-title">معدل ساعات الدراسة في الترم</h4>
+                    <h4 className="card-title">معدل ساعات الدراسة خلال الاترام</h4>
                   </div>
                   <div className="card-body" style={{ height: "350px" }}>
                     {myHoursLine(this.state.hoursHistory)}

@@ -3,7 +3,8 @@ import ksuLogo from '../ksu.jpg'
 import { withRouter } from 'react-router-dom'
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
-import sections from '../courses.json'
+import sections from '../courses.json';
+import stats_icon from '../pie_chart-24px.svg';
 
 class Main extends Component {
   state = {
@@ -104,7 +105,7 @@ class Main extends Component {
                     this.props.history.push('/stats');
                   }}
                   >
-                    <i class="material-icons" style={{fontSize: '53px'}}>favorite</i>
+                    <i class="material-icons" style={{fontSize: '53px'}}>stats_icon</i>
                     <br/> 
                     <br/>
                     الاحصائيات

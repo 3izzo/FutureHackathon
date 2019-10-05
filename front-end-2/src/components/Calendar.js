@@ -37,7 +37,7 @@ function fixData(data) {
       if (parseInt(toMin) >= 30)
         toHour++;
       let day = parseInt(time.day) - 1;
-      times[day][fromHour] = { from: fromHour, size: toHour - fromHour, ...datum };
+      times[day][fromHour] = { from: fromHour, size: toHour - fromHour, room: time.room, ...datum };
       for (let i = fromHour + 1; i < toHour; i++)
         times[day][i] = null;
       startHour = Math.min(startHour, fromHour)
@@ -57,26 +57,45 @@ export default class Calendar extends Component {
       doctor: "",
       type: "",
       sectionId: 0,
-      room: "",
       times: [
-        { day: "1", from: "00:00", to: "00:50" },
+        {
+          day: "1", from: "00:00", to: "00:50", room: "",
+        },
       ]
     }
   };
   getCells(data) {
     let rows = [];
     const percent = 100 / 6 + "%";
+    rows.push(
+      <tr key={"head"}>
+        <th>
+          الأحد
+      </th>
+        <th>
+          الاثنين
+        </th>
+        <th>
+          الثلاثاء
+        </th>
+        <th>
+          الأربعاء
+        </th>
+        <th>
+          الخميس
+        </th>
+      </tr>)
     for (let i = data.startHour; i < data.endHour; i++) {
       let row = [];
-      row.push(<td style={{ width: percent, height: ("7.5vh") }}>{i}:00</td>)
+      row.push(<td key={-1} style={{ width: percent, height: ("7.5vh") }}>{i}:00</td>)
       for (let j = 0; j < data.times.length; j++) {
         const datum = data.times[j][i];
         if (datum === undefined)
-          row.push(<td style={{ width: percent, height: ("7.5vh") }}></td>)
+          row.push(<td key={j} style={{ width: percent, height: ("7.5vh") }}></td>)
         else {
           if (datum !== null)
             row.push(
-              <td rowSpan={datum.size} style={{
+              <td key={j} rowSpan={datum.size} style={{
                 width: percent, height: ("7.5vh"),
                 backgroundColor: intToRGB(hashCode(datum.fullName)),
                 textAlign: 'center',
@@ -92,10 +111,10 @@ export default class Calendar extends Component {
               </td>);
         }
       }
-      rows.push(<tr>{row}</tr>)
+      rows.push(<tr key={i}>{row}</tr>)
     }
-    console.log(rows);
-
+    if (rows.length === 1)
+      rows.push(<tr key={"tail"}><td style={{ height: "7.5vh" }}></td></tr>)
     return rows;
   }
 
@@ -104,41 +123,43 @@ export default class Calendar extends Component {
     console.log(data);
     return (
       <div>
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{this.state.mainClass.shortName + " | " + this.state.mainClass.fullName}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">{this.state.mainClass.shortName + " | " + this.state.mainClass.fullName}</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <table className="table" >
-                <tr >
-                  <td style={{ width: "20vh" }}>الدكتور:</td>
-                  <td style={{ width: "50%" }}>{this.state.mainClass.doctor}</td>
-                </tr>
-                <tr>
-                  <td style={{ width: "20vh" }}>رقم الشعبة:</td>
-                  <td style={{ width: "50%" }}>{this.state.mainClass.sectionId}</td>
-                </tr>
-                <tr>
-                  <td style={{ width: "20vh" }}>الفعالية:</td>
-                  <td style={{ width: "50%" }}>{this.state.mainClass.type}</td>
-                </tr>
-                <tr>
-                  <td style={{ width: "20vh" }}>القاعة:</td>
-                  <td style={{ width: "50%" }}>{this.state.mainClass.room}</td>
-                </tr>
+                <tbody>
+                  <tr >
+                    <td style={{ width: "20vh" }}>الدكتور:</td>
+                    <td style={{ width: "50%" }}>{this.state.mainClass.doctor}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ width: "20vh" }}>رقم الشعبة:</td>
+                    <td style={{ width: "50%" }}>{this.state.mainClass.sectionId}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ width: "20vh" }}>الفعالية:</td>
+                    <td style={{ width: "50%" }}>{this.state.mainClass.type}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ width: "20vh" }}>القاعة:</td>
+                    <td style={{ width: "50%" }}>{this.state.mainClass.room}</td>
+                  </tr>
+                </tbody>
               </table>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
         </div>
         <table className="table table-striped table-dark table-borderless">
-          <tbody>
+          <tbody style={{ minHeight: "20vh" }}>
             {this.getCells(data)}
           </tbody>
         </table>

@@ -39,8 +39,7 @@ module.exports = {
         return user;
       });
       user.stdNo = id;
-      user.password = password;
-      
+            
       await page.goto("https://edugate.ksu.edu.sa/ksu/ui/student/student_transcript/index/studentTranscriptAllIndex.faces");
 
       let stats = await page.evaluate(() => {

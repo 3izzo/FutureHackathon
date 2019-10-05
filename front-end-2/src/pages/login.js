@@ -12,8 +12,10 @@ class Login extends Component {
     isLoading: false,
     isErorr: false,
   }
-  componentDidUpdate() {
-    console.log(this.state);
+  componentWillMount() {
+    if (JSON.parse(localStorage.getItem('auth')) !== null) {
+      this.props.history.push('/');
+    }
   }
 
   handleLogin = () => {

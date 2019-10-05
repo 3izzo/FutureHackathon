@@ -99,12 +99,9 @@ export default class Registeration extends Component {
       return { canAdd: true };
     }
     const ca = canAdd(clazz);
-    console.log(ca);
 
     const canAddRes = ca.canAdd;
     const taarod = ca.taarod;
-    console.log(canAddRes);
-    console.log(taarod);
 
 
     if (canAddRes === true) {
@@ -139,7 +136,6 @@ export default class Registeration extends Component {
     for (let i = 0; i < this.state.possibleCoarses.length; i++) {
       const e = this.state.possibleCoarses[i];
       let found = this.state.currentSelection.find((o) => {
-        console.log(o, e);
         return o.shortName === e
       });
       if (found && found.length != 0)

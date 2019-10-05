@@ -160,13 +160,13 @@ const subjectGrades = () => (
     fill={[
       {
         match: {
-          id: 'fries'
+          id: 'grades'
         },
         id: 'dots'
       },
       {
         match: {
-          id: 'sandwich'
+          id: 'students'
         },
         id: 'lines'
       }
@@ -264,9 +264,9 @@ const myGpaLine = (data) => (
   />
 )
 
-const myHoursLine = () => (
+const myHoursLine = (data) => (
   <ResponsiveLine
-    data={[]}
+    data={data}
     margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
     xScale={{ type: 'point', }}
     yScale={{ type: 'linear', stacked: true, min: "auto", max: "auto", }}
@@ -319,6 +319,11 @@ export default class Stats extends Component {
       this.setState({
         gpaHistory: input
       })
+      let input1 = [{ data: stats.hoursHistory }]
+      this.setState({
+        hoursHistory: input1
+      })
+      let input3 = stats.gpa.rate;
     }
   }
 
@@ -333,7 +338,7 @@ export default class Stats extends Component {
           {/* End Navbar */}
           <div className="content">
             <div className="row">
-            <div className="col col-md-6">
+            <div className="col col-md-3">
                   <div className="card card-stats">
                     <div className="card-header card-header-success card-header-icon">
                       <div className="card-icon">
@@ -345,12 +350,46 @@ export default class Stats extends Component {
                     </div>
                     <div className="card-footer">
                       <div className="stats">
+                      <span class="text-success"><i class="fa fa-long-arrow-up"></i>  {this.state.input3} </span>  معدل الزيادة عن الترم السابق 
+                   </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col-md-3">
+                  <div className="card card-stats">
+                    <div className="card-header card-header card-header-icon">
+                      <div className="card-icon">
+                        <i className="material-icons">insert_chart</i>
+                      </div>
+                      <p className="card-category">المعدل السابق </p>
+                      <h3 className="card-title">4.44
+                      </h3>
+                    </div>
+                    <div className="card-footer">
+                      <div className="stats">
                         <i className="material-icons">access_time</i> آخر تحديث الترم الحالي
                    </div>
                     </div>
                   </div>
                 </div>
-                <div className="col col-md-6">
+                <div className="col col-md-3">
+                  <div className="card card-stats">
+                    <div className="card-header card-header card-header-icon">
+                      <div className="card-icon">
+                        <i className="material-icons">insert_chart</i>
+                      </div>
+                      <p className="card-category">المعدل السابق </p>
+                      <h3 className="card-title">4.44
+                      </h3>
+                    </div>
+                    <div className="card-footer">
+                      <div className="stats">
+                        <i className="material-icons">access_time</i> آخر تحديث الترم الحالي
+                   </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col-md-3">
                   <div className="card card-stats">
                     <div className="card-header card-header card-header-icon">
                       <div className="card-icon">
@@ -409,7 +448,7 @@ export default class Stats extends Component {
                     <h4 className="card-title">معدل ساعات الدراسة في الترم</h4>
                   </div>
                   <div className="card-body" style={{ height: "350px" }}>
-                    {myHoursLine()}
+                    {myHoursLine(this.state.hoursHistory)}
                     <p className="card-category"></p>
                   </div>
                   <div className="card-footer">

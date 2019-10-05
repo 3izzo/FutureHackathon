@@ -3,8 +3,7 @@ import '../Login.css';
 import loading from '../loading.svg'
 import { withRouter } from 'react-router-dom'
 import axios from 'axios';
-import ksuLogo from '../ksu.jpg'
-import Background from '../ksu-background.jpg';
+import ksuLogo from '../ksu.jpg';
 
 class Login extends Component {
   state = {
@@ -51,7 +50,6 @@ class Login extends Component {
                 className="form-control"
                 placeholder="الرقم الجامعي"
                 value={this.state.id}
-
                 required
                 autofocus
                 onChange={(e) => {

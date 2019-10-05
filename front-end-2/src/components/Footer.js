@@ -6,7 +6,7 @@ export default class Footer extends Component {
       <div>
         <footer className="footer">
           <div className="container-fluid">
-            <nav className="float-left">
+            {/* <nav className="float-left">
               <ul>
                 <li>
                   <a href="https://www.creative-tim.com">
@@ -24,7 +24,7 @@ export default class Footer extends Component {
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav> */}
             <div className="copyright float-right">
               نادي تقنية المستقبل
             </div>

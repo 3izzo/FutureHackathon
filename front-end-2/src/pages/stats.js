@@ -377,7 +377,7 @@ export default class Stats extends Component {
                       <div className="card-icon">
                         <i className="material-icons">insert_chart</i>
                       </div>
-                      <p className="card-category">المعدل التراكمي </p>
+                      <p className="card-category">المعدل السابق </p>
                       <h3 className="card-title">{this.state.gpaL}
                       </h3>
                     </div>
